@@ -29,11 +29,12 @@ import { Input } from "@/components/ui/input"
 import {cn} from "@/lib/utils"
 import { Eclipse } from "lucide-react"
 import { authClient } from "@/lib/auth-client"
+import { error } from "console"
 
 const registerSchema=z.object({
     email:z.email("Please enter a valid email address."),
-    password:z.string().min(6,"Password must be at least 6 characters"),
-    confirmPassword:z.string().min(8,"Please confirm your password"),
+    password:z.string().min(8,"Password must be at least 8 characters"),
+    confirmPassword:z.string().min(1,"Please confirm your password"),
 }).refine((data)=>data.password===data.confirmPassword,{
     message:"Passwords do not match",
     path:["confirmPassword"]
@@ -64,6 +65,9 @@ export const  RegisterForm=()=>{
         },{
             onSuccess: ()=>{
                 router.push("/")
+            },
+            onError:(error)=>{
+                toast.message(error.error.message)
             }
         }
     
@@ -176,7 +180,7 @@ export const  RegisterForm=()=>{
                                 />
                                 <Button
                                     type="submit"
-                                    className="w-full h-10"
+                                    className="w-full h-10 cursor-pointer"
                                     disabled={isPending}
                                 >
                                     {isPending ? "Signing up..." : "Sign up"}
