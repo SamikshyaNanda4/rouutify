@@ -31,12 +31,12 @@ import {cn} from "@/lib/utils"
 import { Eclipse } from "lucide-react"
 
 const registerSchema=z.object({
-    email:z.email("Please enter your email address."),
-    password:z.string().min(6,"Please enter a valid password"),
-    confirmPassword:z.string(),
+    email:z.string().email("Please enter a valid email address."),
+    password:z.string().min(6,"Password must be at least 6 characters"),
+    confirmPassword:z.string().min(1,"Please confirm your password"),
 }).refine((data)=>data.password===data.confirmPassword,{
     message:"Passwords do not match",
-    path:["confimrPassword"]
+    path:["confirmPassword"]
 })
 
 type RegisterFormValues=z.infer<typeof registerSchema >
@@ -127,20 +127,12 @@ export const  RegisterForm=()=>{
                                     name="password"
                                     render={({field})=>(
                                         <FormItem>
-                                            <div className="flex items-center justify-between">
-                                                <FormLabel>Password</FormLabel>
-                                                <Link
-                                                    href="/forgot-password"
-                                                    className="text-xs text-muted-foreground hover:text-primary underline-offset-4 hover:underline"
-                                                >
-                                                    Forgot password?
-                                                </Link>
-                                            </div>
+                                            <FormLabel>Password</FormLabel>
                                             <FormControl>
                                                 <Input
                                                     {...field}
                                                     type="password"
-                                                    placeholder="Enter your password"
+                                                    placeholder="Create a password (min. 6 characters)"
                                                     disabled={isPending}
                                                     className="h-10"
                                                 />
@@ -154,15 +146,7 @@ export const  RegisterForm=()=>{
                                     name="confirmPassword"
                                     render={({field})=>(
                                         <FormItem>
-                                            <div className="flex items-center justify-between">
-                                                <FormLabel>Confirm Password</FormLabel>
-                                                <Link
-                                                    href="/forgot-password"
-                                                    className="text-xs text-muted-foreground hover:text-primary underline-offset-4 hover:underline"
-                                                >
-                                                    Forgot password?
-                                                </Link>
-                                            </div>
+                                            <FormLabel>Confirm Password</FormLabel>
                                             <FormControl>
                                                 <Input
                                                     {...field}
