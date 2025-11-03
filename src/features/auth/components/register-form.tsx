@@ -30,24 +30,29 @@ import { Input } from "@/components/ui/input"
 import {cn} from "@/lib/utils"
 import { Eclipse } from "lucide-react"
 
-const loginSchema=z.object({
+const registerSchema=z.object({
     email:z.email("Please enter your email address."),
-    password:z.string().min(6,"Please enter a valid password")
+    password:z.string().min(6,"Please enter a valid password"),
+    confirmPassword:z.string(),
+}).refine((data)=>data.password===data.confirmPassword,{
+    message:"Passwords do not match",
+    path:["confimrPassword"]
 })
 
-type LoginFormValues=z.infer<typeof loginSchema >
+type RegisterFormValues=z.infer<typeof registerSchema >
 
 export const  RegisterForm=()=>{
     const router =useRouter();
-    const form =useForm<LoginFormValues>({
-        resolver:zodResolver(loginSchema),
+    const form =useForm<RegisterFormValues>({
+        resolver:zodResolver(registerSchema),
         defaultValues:{
             email:"",
-            password:""
+            password:"",
+            confirmPassword:""
         }
     });
 
-    const onSubmit=async(values:LoginFormValues)=>{
+    const onSubmit=async(values:RegisterFormValues)=>{
         console.log(values)
     }
 
@@ -61,7 +66,7 @@ export const  RegisterForm=()=>{
                         Get Started 
                     </CardTitle>
                     <CardDescription>
-                        Login to continue to your account
+                        Create your account to get started
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="px-6 pb-6">
@@ -144,22 +149,49 @@ export const  RegisterForm=()=>{
                                         </FormItem>
                                     )}
                                 />
+                                <FormField
+                                    control={form.control}
+                                    name="confirmPassword"
+                                    render={({field})=>(
+                                        <FormItem>
+                                            <div className="flex items-center justify-between">
+                                                <FormLabel>Confirm Password</FormLabel>
+                                                <Link
+                                                    href="/forgot-password"
+                                                    className="text-xs text-muted-foreground hover:text-primary underline-offset-4 hover:underline"
+                                                >
+                                                    Forgot password?
+                                                </Link>
+                                            </div>
+                                            <FormControl>
+                                                <Input
+                                                    {...field}
+                                                    type="password"
+                                                    placeholder="Confirm your password"
+                                                    disabled={isPending}
+                                                    className="h-10"
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
                                 <Button
                                     type="submit"
                                     className="w-full h-10"
                                     disabled={isPending}
                                 >
-                                    {isPending ? "Signing in..." : "Sign in"}
+                                    {isPending ? "Signing up..." : "Sign up"}
                                 </Button>
                             </div>
 
                             <div className="text-center text-sm text-muted-foreground">
-                                Don&apos;t have an account?{" "}
+                                Already have an account?{" "}
                                 <Link
                                     href="/login"
                                     className="text-primary underline underline-offset-4 hover:text-primary/80"
                                 >
-                                    Sign up
+                                    Login
                                 </Link>
                             </div>
                         </form>
