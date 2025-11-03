@@ -9,26 +9,31 @@
 // import { authClient } from "@/lib/auth-client"
 // import { Button } from "@/components/ui/button"
 
+import { requireAuth } from "@/lib/auth.utils"
+import { LogoutButton } from "@/components/logout-button"
+
 //Leverages the speed of a server component by instantly starting to prefetch this->void queryClient.prefetchQuery(trpc.getUsers.queryOptions())
 //Conver back to a normal protected server component
 
-const Page =  () => {
+const Page =  async() => {
   // const trpc=useTRPC()
   // const {data:users} = useQuery(trpc.getUsers.queryOptions())
   // const users=await caller.getUsers()
   // const queryClient=getQueryClient()
     // // void queryClient.prefetchQuery(trpc.getUsers.queryOptions())
     // const {data} =authClient.useSession()
+    await requireAuth();
 
   return (
-    <div className="min-h-screen min-w-screen flex items-center justify-center">
+    <div className="min-h-screen min-w-screen flex flex-col gap-4 items-center justify-center">
       {/* <h1 className="text-blue-950">{JSON.stringify(users)}</h1> */}
       {/* <HydrationBoundary state={dehydrate(queryClient)}>
        <Suspense fallback={<p>...Loading</p>}>
            <Client/>
        </Suspense>
       </HydrationBoundary> */}
-      Protected Server Component
+      <h1 className="text-2xl font-bold">Protected Server Component</h1>
+      <LogoutButton />
     </div>
   )
 }
