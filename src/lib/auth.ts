@@ -10,6 +10,7 @@ export const auth=betterAuth({
         provider:"postgresql",
     }),
     emailAndPassword:{
-        enabled:true
+        enabled:true,
+        autoSignIn:true, //automatically signs in when someone registers
     }
 });

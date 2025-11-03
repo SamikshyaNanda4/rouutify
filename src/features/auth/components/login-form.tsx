@@ -32,7 +32,7 @@ import { Eclipse } from "lucide-react"
 
 const loginSchema=z.object({
     email:z.email("Please enter your email address."),
-    password:z.string().min(6,"Please enter a valid password")
+    password:z.string().min(8,"Please enter a valid password")
 })
 
 type LoginFormValues=z.infer<typeof loginSchema >
