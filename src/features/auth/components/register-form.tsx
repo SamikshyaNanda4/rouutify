@@ -37,7 +37,7 @@ const loginSchema=z.object({
 
 type LoginFormValues=z.infer<typeof loginSchema >
 
-export const  LoginForm=()=>{
+export const  RegisterForm=()=>{
     const router =useRouter();
     const form =useForm<LoginFormValues>({
         resolver:zodResolver(loginSchema),
@@ -58,7 +58,7 @@ export const  LoginForm=()=>{
             <Card className="w-full max-w-md shadow-lg">
                 <CardHeader className="text-center space-y-2">
                     <CardTitle className="text-2xl font-bold">
-                        Welcome Back!
+                        Get Started 
                     </CardTitle>
                     <CardDescription>
                         Login to continue to your account
@@ -156,7 +156,7 @@ export const  LoginForm=()=>{
                             <div className="text-center text-sm text-muted-foreground">
                                 Don&apos;t have an account?{" "}
                                 <Link
-                                    href="/register"
+                                    href="/login"
                                     className="text-primary underline underline-offset-4 hover:text-primary/80"
                                 >
                                     Sign up
