@@ -30,6 +30,7 @@ import {cn} from "@/lib/utils"
 import { Eclipse } from "lucide-react"
 import { authClient } from "@/lib/auth-client"
 import { error } from "console"
+import { CircuitBackground } from "@/components/ui/circuit-background"
 
 const registerSchema=z.object({
     email:z.email("Please enter a valid email address."),
@@ -77,8 +78,9 @@ export const  RegisterForm=()=>{
     const isPending=form.formState.isSubmitting;
 
     return(
-        <div className="min-h-screen w-full flex items-center justify-center p-4 bg-gradient-to-br from-background to-muted">
-            <Card className="w-full max-w-md shadow-lg">
+        <div className="min-h-screen w-full flex items-center justify-center p-4 bg-gradient-to-br from-background to-muted relative overflow-hidden">
+            <CircuitBackground />
+            <Card className="w-full max-w-md shadow-lg relative z-10">
                 <CardHeader className="text-center space-y-2">
                     <CardTitle className="text-2xl font-bold">
                         Get Started 
