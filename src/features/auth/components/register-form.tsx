@@ -182,6 +182,7 @@ export const  RegisterForm=()=>{
                                     type="submit"
                                     className="w-full h-10 cursor-pointer"
                                     disabled={isPending}
+                                    variant="destructive"
                                 >
                                     {isPending ? "Signing up..." : "Sign up"}
                                 </Button>

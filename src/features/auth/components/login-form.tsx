@@ -29,6 +29,8 @@ import { Input } from "@/components/ui/input"
 // import {authClient} from "@/lib/auth-client"
 import {cn} from "@/lib/utils"
 import { Eclipse } from "lucide-react"
+import { authClient } from "@/lib/auth-client"
+import {  useState } from "react"
 
 const loginSchema=z.object({
     email:z.email("Please enter your email address."),
@@ -39,6 +41,8 @@ type LoginFormValues=z.infer<typeof loginSchema >
 
 export const  LoginForm=()=>{
     const router =useRouter();
+    const [loading,setLoading]=useState<boolean>(false)
+
     const form =useForm<LoginFormValues>({
         resolver:zodResolver(loginSchema),
         defaultValues:{
@@ -48,7 +52,26 @@ export const  LoginForm=()=>{
     });
 
     const onSubmit=async(values:LoginFormValues)=>{
-        console.log(values)
+        // console.log(values)
+        await authClient.signIn.email({
+            email:values.email,
+            password:values.password,
+            callbackURL:"/"
+        },{
+            onSuccess:()=>{
+                router.push("/")
+            },
+            onRequest() {
+                setLoading(true)
+            },
+            onError:(ctx)=>{
+                if(ctx.error.message){
+                    setLoading(false);
+                    toast.error(ctx.error.message || "Something went wrong!")
+                }
+            }
+        }
+    )
     }
 
     const isPending=form.formState.isSubmitting;
@@ -146,10 +169,10 @@ export const  LoginForm=()=>{
                                 />
                                 <Button
                                     type="submit"
-                                    className="w-full h-10"
+                                    className="w-full h-10 cursor-pointer"
                                     disabled={isPending}
                                 >
-                                    {isPending ? "Signing in..." : "Sign in"}
+                                    {isPending ? "Signing in..." : "Sign In"}
                                 </Button>
                             </div>
 
@@ -158,9 +181,8 @@ export const  LoginForm=()=>{
                                 <Link
                                     href="/register"
                                     className="text-primary underline underline-offset-4 hover:text-primary/80"
-                                >
-                                    Sign up
-                                </Link>
+                                >Sign up
+                               </Link>
                             </div>
                         </form>
                     </Form>
