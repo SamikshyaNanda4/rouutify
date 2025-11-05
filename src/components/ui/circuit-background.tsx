@@ -124,8 +124,8 @@ export const CircuitBackground = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 pointer-events-none"
-      style={{ opacity: 0.4 }}
+      className="absolute inset-0 pointer-events-none backdrop-blur-sm"
+      style={{ opacity: 0.9}}
     />
   )
 }

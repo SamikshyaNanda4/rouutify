@@ -1,7 +1,7 @@
 "use client"
 import {z} from "zod"
 import {zodResolver} from "@hookform/resolvers/zod"
-import Image from "next/image"
+// import Image from "next/image"
 import Link from "next/link"
 import {useRouter} from "next/navigation"
 import {useForm} from "react-hook-form"
@@ -26,10 +26,7 @@ import {
 } from "@/components/ui/form"
 
 import { Input } from "@/components/ui/input"
-import {cn} from "@/lib/utils"
-import { Eclipse } from "lucide-react"
 import { authClient } from "@/lib/auth-client"
-import { error } from "console"
 import { CircuitBackground } from "@/components/ui/circuit-background"
 
 const registerSchema=z.object({
