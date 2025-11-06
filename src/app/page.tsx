@@ -11,6 +11,7 @@
 
 import { requireAuth } from "@/lib/auth.utils"
 import { LogoutButton } from "@/components/logout-button"
+import { caller } from "@/trpc/server";
 
 //Leverages the speed of a server component by instantly starting to prefetch this->void queryClient.prefetchQuery(trpc.getUsers.queryOptions())
 //Conver back to a normal protected server component
@@ -23,6 +24,7 @@ const Page =  async() => {
     // // void queryClient.prefetchQuery(trpc.getUsers.queryOptions())
     // const {data} =authClient.useSession()
     await requireAuth();
+    const data=await caller.getUsers();
 
   return (
     <div className="min-h-screen min-w-screen flex flex-col gap-4 items-center justify-center">
@@ -33,6 +35,26 @@ const Page =  async() => {
        </Suspense>
       </HydrationBoundary> */}
       <h1 className="text-2xl font-bold">Protected Server Component</h1>
+        {/* <h3>{JSON.stringify(data)}</h3> */}
+        <div>
+      {data.map((item, index) => (
+        <div
+          key={index}
+          style={{
+            border: "4px solid #ccc",
+            padding: "10px",
+            marginBottom: "10px",
+            borderRadius: "8px",
+          }}
+        >
+          {Object.entries(item).map(([key, value]) => (
+            <p key={key}>
+              <strong>{key}:</strong> {String(value)}
+            </p>
+          ))}
+        </div>
+      ))}
+    </div>
       <LogoutButton />
     </div>
   )
